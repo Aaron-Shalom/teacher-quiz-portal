@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz - Teacher</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { width: 80%; margin: 0 auto; padding: 20px; }
+        h2 { text-align: center; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 10px; margin: 5px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Create a New Quiz</h2>
+        <form id="quiz-form">
+            <input type="text" id="question-text" placeholder="Enter question text" required>
+            <input type="text" id="option1" placeholder="Option 1" required>
+            <input type="text" id="option2" placeholder="Option 2" required>
+            <input type="text" id="option3" placeholder="Option 3" required>
+            <input type="text" id="option4" placeholder="Option 4" required>
+            <input type="number" id="timer" placeholder="Timer in seconds" required>
+            <button type="button" onclick="addQuestion()">Add Question</button>
+        </form>
+        <h2>Questions List</h2>
+        <ul id="questions-list"></ul>
+        <button type="button" onclick="startQuiz()">Start Quiz</button>
+        <h2>Results</h2>
+        <div id="results" class="results"></div>
+    </div>
+    <script>
+        let questions = [];
+        function addQuestion() {
+            const questionText = document.getElementById('question-text').value;
+            const option1 = document.getElementById('option1').value;
+            const option2 = document.getElementById('option2').value;
+            const option3 = document.getElementById('option3').value;
+            const option4 = document.getElementById('option4').value;
+            const timer = document.getElementById('timer').value;
+
+            if (questionText && option1 && option2 && option3 && option4 && timer) {
+                questions.push({
+                    question: questionText,
+                    options: [option1, option2, option3, option4],
+                    correct: null,
+                    timer: timer
+                });
+
+                // Clear input fields
+                document.getElementById('question-text').value = '';
+                document.getElementById('option1').value = '';
+                document.getElementById('option2').value = '';
+                document.getElementById('option3').value = '';
+                document.getElementById('option4').value = '';
+                document.getElementById('timer').value = '';
+
+                // Update questions list
+                const questionsList = document.getElementById('questions-list');
+                questionsList.innerHTML = '';
+                questions.forEach((q, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `<strong>${index + 1}. ${q.question}</strong>`;
+                    questionsList.appendChild(listItem);
+                });
+
+                alert('Question added successfully!');
+            } else {
+                alert('Please fill in all fields!');
+            }
+        }
+
+        function startQuiz() {
+            if (questions.length > 0) {
+                // Redirect to student interface
+                window.location.href = 'index-student.html';
+            } else {
+                alert('Please add at least one question!');
+            }
+        }
+    </script>
+</body>
+</html>
